@@ -12,13 +12,18 @@ import android.view.MenuItem;
 
 import com.tmall.todolist.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class TasksActivity extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
+        ButterKnife.bind(this);
 
         initView();
     }
@@ -42,7 +47,6 @@ public class TasksActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Set up the navigation drawer.
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.tasks_nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
