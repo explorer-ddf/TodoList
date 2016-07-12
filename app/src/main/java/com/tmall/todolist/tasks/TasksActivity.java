@@ -2,12 +2,12 @@ package com.tmall.todolist.tasks;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuItem;
 
 import com.tmall.todolist.R;
@@ -26,6 +26,9 @@ public class TasksActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initView();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.contentFrame, TasksFragment.newInstance());
     }
 
     @Override
