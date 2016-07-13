@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.tmall.todolist.R;
+import com.tmall.todolist.util.ActivityUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +19,8 @@ import butterknife.ButterKnife;
 public class TasksActivity extends AppCompatActivity {
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
+
+    private TasksPresenter mTasksPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +30,12 @@ public class TasksActivity extends AppCompatActivity {
 
         initView();
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.contentFrame, TasksFragment.newInstance());
+        TasksFragment tasksFragment = (TasksFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (tasksFragment == null) {
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), TasksFragment.newInstance(), R.id.contentFrame);
+        }
+
+        mTasksPresenter = new TasksPresenter(tasksFragment);
     }
 
     @Override

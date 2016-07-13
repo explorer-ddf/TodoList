@@ -18,7 +18,7 @@ import com.tmall.todolist.R;
  * Use the {@link TasksFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TasksFragment extends Fragment {
+public class TasksFragment extends Fragment implements TasksContract.View{
     private OnFragmentInteractionListener mListener;
 
     public TasksFragment() {
@@ -54,6 +54,11 @@ public class TasksFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void setPresenter(TasksContract.Presenter presenter) {
+
     }
 
     public interface OnFragmentInteractionListener {
