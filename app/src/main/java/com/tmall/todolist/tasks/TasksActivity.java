@@ -2,7 +2,6 @@ package com.tmall.todolist.tasks;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -10,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.tmall.todolist.Injection;
 import com.tmall.todolist.R;
 import com.tmall.todolist.util.ActivityUtils;
 
@@ -17,6 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TasksActivity extends AppCompatActivity {
+    private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
+
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
@@ -35,7 +37,20 @@ public class TasksActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), TasksFragment.newInstance(), R.id.contentFrame);
         }
 
-        mTasksPresenter = new TasksPresenter(tasksFragment);
+        mTasksPresenter = new TasksPresenter(Injection.provideTasksRepository(getApplicationContext()), tasksFragment);
+
+        // FIXME: 恢复状态
+        if (savedInstanceState != null) {
+            TasksFilterType currentFiltering = (TasksFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
+            mTasksPresenter.setFiltering(currentFiltering);
+        }
+    }
+
+    // FIXME: 保存状态
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(CURRENT_FILTERING_KEY, mTasksPresenter.getFiltering());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
