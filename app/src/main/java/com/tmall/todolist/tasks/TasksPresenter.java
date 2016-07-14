@@ -36,7 +36,6 @@ public class TasksPresenter implements TasksContract.Presenter {
 
     @Override
     public void loadTasks(boolean forceUpdate) {
-
     }
 
     @Override
